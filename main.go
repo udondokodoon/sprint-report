@@ -170,7 +170,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	status := make(map[string]float64)
 	var sprint *Sprint
 
 	info := &SprintInfo{[]*SprintStory{}, 0, 0, map[string]*SprintStatus{}}
@@ -197,10 +196,8 @@ func main() {
 			info.Statuses[statusName] = &SprintStatus{statusName, 0}
 		}
 		info.Statuses[statusName].Sp += sp
-		status[issue.Fields.Status.Name] += sp
 		if issue.Fields.Status.Name == "進行中" {
 			info.StoriesInProgress = append(info.StoriesInProgress, &SprintStory{issue.Fields.Summary, sp})
-			//storiesInProgress = append(storiesInProgress, issue.Fields.Summary+": "+customFields["customfield_10004"])
 		}
 
 		if s.State != "ACTIVE" {
