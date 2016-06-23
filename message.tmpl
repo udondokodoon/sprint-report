@@ -4,7 +4,7 @@
 {{end}}
 ◆ストーリーポイント
 - 合計: {{.Sum}}
-- 一日消化必須: {{.Avg}}
+- 一日消化必須: {{.Avg | printf "%.2f"}}
 {{range $idx, $status := .Statuses}}- {{$status.Status}}: {{$status.Sp}}
 {{end}}
 ◆障害となっていること
