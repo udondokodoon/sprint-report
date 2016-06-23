@@ -9,7 +9,6 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"os"
 	"strconv"
 	"strings"
 	"text/template"
@@ -127,17 +126,6 @@ func readConfigFile(filename string) (*Config, error) {
 	var config Config
 	json.Unmarshal(file, &config)
 	return &config, nil
-}
-
-type V struct {
-}
-
-func _main() {
-	tmpl, err := template.ParseFiles("message.tmpl")
-	if err != nil {
-		log.Fatal(err)
-	}
-	tmpl.Execute(os.Stdout, map[string]string{"template": "HOGEHOGE"})
 }
 
 func main() {
