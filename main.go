@@ -1,7 +1,7 @@
 package main
 
 import (
-  "bytes"
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/andygrunwald/go-jira"
@@ -103,20 +103,20 @@ func (s *Sprint) GetRemainingDays() int {
 }
 
 type SprintInfo struct {
-  StoriesInProgress []*SprintStory
-  Sum float64
-  Avg float64
-  Statuses map[string]*SprintStatus
+	StoriesInProgress []*SprintStory
+	Sum               float64
+	Avg               float64
+	Statuses          map[string]*SprintStatus
 }
 
 type SprintStory struct {
-  Story string
-  Sp float64
+	Story string
+	Sp    float64
 }
 
 type SprintStatus struct {
-  Status string
-  Sp float64
+	Status string
+	Sp     float64
 }
 
 func readConfigFile(filename string) (*Config, error) {
@@ -130,7 +130,6 @@ func readConfigFile(filename string) (*Config, error) {
 }
 
 type V struct {
-
 }
 
 func _main() {
@@ -147,10 +146,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-  tmpl, err := template.ParseFiles("message.tmpl")
-  if err != nil {
-    log.Fatal(err)
-  }
+	tmpl, err := template.ParseFiles("message.tmpl")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	jiraClient, err := jira.NewClient(nil, config.Jira.URL)
 	if err != nil {
@@ -174,7 +173,7 @@ func main() {
 	status := make(map[string]float64)
 	var sprint *Sprint
 
-  info := &SprintInfo{[]*SprintStory{}, 0, 0, map[string]*SprintStatus{}}
+	info := &SprintInfo{[]*SprintStory{}, 0, 0, map[string]*SprintStatus{}}
 	sum := 0.0
 	for _, issue := range issues {
 		/*
@@ -193,14 +192,14 @@ func main() {
 		//log.Printf("%s\n", s.Name)
 		sp, _ := strconv.ParseFloat(customFields["customfield_10004"], 64)
 		sum += sp
-    statusName := issue.Fields.Status.Name
-    if info.Statuses[statusName] == nil {
-      info.Statuses[statusName] = &SprintStatus{statusName, 0}
-    }
-    info.Statuses[statusName].Sp += sp;
+		statusName := issue.Fields.Status.Name
+		if info.Statuses[statusName] == nil {
+			info.Statuses[statusName] = &SprintStatus{statusName, 0}
+		}
+		info.Statuses[statusName].Sp += sp
 		status[issue.Fields.Status.Name] += sp
 		if issue.Fields.Status.Name == "進行中" {
-      info.StoriesInProgress = append(info.StoriesInProgress, &SprintStory{issue.Fields.Summary, sp})
+			info.StoriesInProgress = append(info.StoriesInProgress, &SprintStory{issue.Fields.Summary, sp})
 			//storiesInProgress = append(storiesInProgress, issue.Fields.Summary+": "+customFields["customfield_10004"])
 		}
 
@@ -210,11 +209,11 @@ func main() {
 		sprint = s
 	}
 
-  info.Sum = sum
-  info.Avg = sum/float64(sprint.GetRemainingDays())
-  buf := &bytes.Buffer{}
-  tmpl.Execute(buf, info)
-  log.Println(buf.String());
+	info.Sum = sum
+	info.Avg = sum / float64(sprint.GetRemainingDays())
+	buf := &bytes.Buffer{}
+	tmpl.Execute(buf, info)
+	log.Println(buf.String())
 	msg := &SlackMessage{buf.String(), "jira-task", "", config.Slack.Icon, config.Slack.Channel}
 	msg.Post(config.Slack.IncomingWebHook)
 }
