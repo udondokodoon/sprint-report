@@ -1,0 +1,13 @@
+◆進行中ストーリー
+
+{{range $idx, $story := .StoriesInProgress}}- {{$story.Story}}: {{$story.Sp}}
+{{end}}
+◆ストーリーポイント
+- 合計: {{.Sum}}
+- 一日消化必須: {{.Avg}}
+{{range $idx, $status := .Statuses}}- {{$status.Status}}: {{$status.Sp}}
+{{end}}
+◆障害となっていること
+なし
+◆補足
+なし

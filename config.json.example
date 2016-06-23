@@ -1,0 +1,13 @@
+{
+  "jira": {
+    "url": "https://xxxxxxx.atlassian.net",
+    "project": "XXXXXXX",
+    "user": "xxxx",
+    "password": "i|love|jira"
+  },
+  "slack": {
+    "incomingWebHook": "https://hooks.slack.com/services/xxxxxxxxx/xxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxx",
+    "icon": "[image URL]",
+    "channel": "_xxxxx"
+  }
+}
